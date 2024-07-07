@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/background.png</file>
+        <file>images/boost_tile.png</file>
+        <file>images/extra_turn_tile.png</file>
+        <file>images/finish_tile.png</file>
+        <file>images/start_tile.png</file>
+        <file>images/trap_tile.png</file>
+        <file>images/road_tile.png</file>
+        <file>images/dice/1.png</file>
+        <file>images/dice/2.png</file>
+        <file>images/dice/3.png</file>
+        <file>images/dice/4.png</file>
+        <file>images/dice/5.png</file>
+        <file>images/dice/6.png</file>
+        <file>images/player3.png</file>
+        <file>images/player4.png</file>
+        <file>images/player2.png</file>
+        <file>images/player1.png</file>
+    </qresource>
+</RCC>
