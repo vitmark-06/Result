@@ -110,10 +110,19 @@ void MainWindow::startNewGame() {
     mainLayout->addWidget(rollButton, 0, Qt::AlignTop);
     connect(rollButton, &QPushButton::clicked, this, &MainWindow::rollDice);
 
+    QHBoxLayout* buttons = new QHBoxLayout(centralWidget);
+
+    QPushButton* helpButton = new QPushButton("Help", centralWidget);
+    helpButton->setStyleSheet("QPushButton { background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 4px; }");
+    buttons->addWidget(helpButton, 0, Qt::AlignTop);
+    connect(helpButton, &QPushButton::clicked, this, &MainWindow::help);
+
     exitButton = new QPushButton("Exit Game", centralWidget);
     exitButton->setStyleSheet("QPushButton { background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 4px; }");
-    mainLayout->addWidget(exitButton);
+    buttons->addWidget(exitButton);
     connect(exitButton, &QPushButton::clicked, this, &MainWindow::exitGame);
+
+    mainLayout->addLayout(buttons);
 
     QPixmap background(":/images/background.png");
     background = background.scaled(TILE_SIZE * COLS, TILE_SIZE * ROWS);
@@ -186,10 +195,19 @@ void MainWindow::newGame() {
     mainLayout->addWidget(rollButton, 0, Qt::AlignTop);
     connect(rollButton, &QPushButton::clicked, this, &MainWindow::rollDice);
 
+    QHBoxLayout* buttons = new QHBoxLayout(centralWidget);
+
+    QPushButton* helpButton = new QPushButton("Help", centralWidget);
+    helpButton->setStyleSheet("QPushButton { background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 4px; }");
+    buttons->addWidget(helpButton, 0, Qt::AlignTop);
+    connect(helpButton, &QPushButton::clicked, this, &MainWindow::help);
+
     exitButton = new QPushButton("Exit Game", centralWidget);
     exitButton->setStyleSheet("QPushButton { background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 4px; }");
-    mainLayout->addWidget(exitButton);
+    buttons->addWidget(exitButton);
     connect(exitButton, &QPushButton::clicked, this, &MainWindow::exitGame);
+
+    mainLayout->addLayout(buttons);
 
     QPixmap background(":/images/background.png");
     background = background.scaled(TILE_SIZE * COLS, TILE_SIZE * ROWS);
