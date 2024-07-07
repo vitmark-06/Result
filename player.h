@@ -9,9 +9,7 @@ class Player {
 public:
     Player(QGraphicsScene *scene, const QString &imagePath, int tileSize);
     void moveTo(int row, int col);
-    void setName(const QString& name) {
-        this->name = name;
-    }
+    void setName(const QString& name);
 
 private:
     QGraphicsPixmapItem *token;

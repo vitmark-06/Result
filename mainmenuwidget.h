@@ -2,6 +2,8 @@
 #define MAINMENUWIDGET_H
 
 #include <QFile>
+#include <QDir>
+#include <QFileDialog>
 #include <QLabel>
 #include <QMessageBox>
 #include <QPushButton>

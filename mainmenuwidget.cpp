@@ -63,17 +63,20 @@ void MainMenuWidget::createMainMenu() {
 }
 
 void MainMenuWidget::results() {
-    QString fileName = "results.txt";
-    QFile file(fileName);
+    QString fileName = QFileDialog::getOpenFileName(this, "Open Results File", QDir::homePath(), "Text Files (*.txt)");
 
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QTextStream in(&file);
-        QString contents = in.readAll();
-        file.close();
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
 
-        QMessageBox::information(this, "Results", contents);
-    } else {
-        QMessageBox::warning(this, "Error", "Failed to open the results file.");
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream in(&file);
+            QString contents = in.readAll();
+            file.close();
+
+            QMessageBox::information(this, "Results", contents);
+        } else {
+            QMessageBox::warning(this, "Error", "Failed to open the results file.");
+        }
     }
 }
 

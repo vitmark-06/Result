@@ -19,8 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() {}
 
-void MainWindow::drawPath(QGraphicsScene *scene, const std::vector<std::vector<int>> &path)
-{
+void MainWindow::drawPath(QGraphicsScene *scene, const std::vector<std::vector<int>> &path) {
     QPixmap roadTile(":/images/road_tile.png");
     QPixmap startTile(":/images/start_tile.png");
     QPixmap finishTile(":/images/finish_tile.png");
@@ -92,10 +91,19 @@ void MainWindow::startNewGame() {
     view = new QGraphicsView(scene, centralWidget);
     mainLayout->addWidget(view, 1);
 
+    QHBoxLayout* labels = new QHBoxLayout(centralWidget);
+
+    diceLabel = new QLabel(centralWidget);
+    diceLabel->setText(QString("Dice Roll: %1").arg(diceRoll));
+    diceLabel->setStyleSheet("color: white;");
+    labels->addWidget(diceLabel, 0, Qt::AlignHCenter);
+
     currentPlayerLabel = new QLabel(centralWidget);
     currentPlayerLabel->setText("Current Player: Player 1");
     currentPlayerLabel->setStyleSheet("color: white;");
-    mainLayout->addWidget(currentPlayerLabel, 0, Qt::AlignHCenter);
+    labels->addWidget(currentPlayerLabel, 0, Qt::AlignHCenter);
+
+    mainLayout->addLayout(labels);
 
     QPushButton* rollButton = new QPushButton("Roll Dice", centralWidget);
     rollButton->setStyleSheet("QPushButton { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; }");
@@ -113,58 +121,179 @@ void MainWindow::startNewGame() {
     scene->addPixmap(background);
 
     std::vector<std::vector<int>> path = {
-        {2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3},
-        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-        {0, 0, 1, 1, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0},
-        {0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0},
-        {0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 6, 1, 1, 5, 1, 1, 4, 1, 0, 0, 1, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 0, 6, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 4, 0},
+        {2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
+        {0, 0, 1, 0, 0, 0, 0, 0, 1, 5, 4, 1, 0, 0, 1, 0, 4, 0, 0, 0},
+        {0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 6, 0, 1, 0, 0, 0},
+        {1, 4, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 5, 0, 1, 0, 0, 0},
+        {5, 0, 0, 0, 1, 4, 1, 0, 6, 0, 0, 1, 0, 0, 1, 0, 5, 1, 6, 0},
+        {6, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0},
+        {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 5, 1, 1, 4, 0, 0, 0, 1, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
     drawPath(scene, path);
-/*
-    player3 = new Player(scene, ":/images/player3.png", TILE_SIZE);
-    player1 = new Player(scene, ":/images/player1.png", TILE_SIZE);
-    player2 = new Player(scene, ":/images/player2.png", TILE_SIZE);
-*/
 
     startX = 0;
     startY = 0;
-    QPixmap figureImage(":/images/player1.png");
-    figureImage = figureImage.scaled(TILE_SIZE, TILE_SIZE);
-    figureItem = scene->addPixmap(figureImage);
-    figureItem->setPos(TILE_SIZE * startX, TILE_SIZE * startY);
 
+    QPixmap figureImage1(":/images/player1.png");
+    figureImage1 = figureImage1.scaled(TILE_SIZE, TILE_SIZE);
+    figureItem1 = scene->addPixmap(figureImage1);
+    figureItem1->setPos(TILE_SIZE * startX, TILE_SIZE * startY);
+
+    QPixmap figureImage2(":/images/player2.png");
+    figureImage2 = figureImage2.scaled(TILE_SIZE, TILE_SIZE);
+    figureItem2 = scene->addPixmap(figureImage2);
+    figureItem2->setPos(TILE_SIZE * startX, TILE_SIZE * startY);
+}
+
+void MainWindow::newGame() {
+    setWindowTitle("Adventure game");
+    showFullScreen();
+
+    menuBar = new QMenuBar(this);
+    setMenuBar(menuBar);
+    createMenu();
+
+    scene = new QGraphicsScene(this);
+
+    QWidget* centralWidget = new QWidget(this);
+    setCentralWidget(centralWidget);
+
+    QVBoxLayout* mainLayout = new QVBoxLayout(centralWidget);
+
+    view = new QGraphicsView(scene, centralWidget);
+    mainLayout->addWidget(view, 1);
+
+    QHBoxLayout* labels = new QHBoxLayout(centralWidget);
+
+    diceLabel = new QLabel(centralWidget);
+    diceLabel->setText(QString("Dice Roll: %1").arg(diceRoll));
+    diceLabel->setStyleSheet("color: white;");
+    labels->addWidget(diceLabel, 0, Qt::AlignHCenter);
+
+    currentPlayerLabel = new QLabel(centralWidget);
+    currentPlayerLabel->setText("Current Player: Player 1");
+    currentPlayerLabel->setStyleSheet("color: white;");
+    labels->addWidget(currentPlayerLabel, 0, Qt::AlignHCenter);
+
+    mainLayout->addLayout(labels);
+
+    QPushButton* rollButton = new QPushButton("Roll Dice", centralWidget);
+    rollButton->setStyleSheet("QPushButton { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; }");
+    mainLayout->addWidget(rollButton, 0, Qt::AlignTop);
+    connect(rollButton, &QPushButton::clicked, this, &MainWindow::rollDice);
+
+    exitButton = new QPushButton("Exit Game", centralWidget);
+    exitButton->setStyleSheet("QPushButton { background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 4px; }");
+    mainLayout->addWidget(exitButton);
+    connect(exitButton, &QPushButton::clicked, this, &MainWindow::exitGame);
+
+    QPixmap background(":/images/background.png");
+    background = background.scaled(TILE_SIZE * COLS, TILE_SIZE * ROWS);
+    scene->setSceneRect(0, 0, background.width(), background.height());
+    scene->addPixmap(background);
+
+    std::vector<std::vector<int>> path = {
+        {2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
+        {0, 0, 1, 0, 0, 0, 0, 0, 1, 5, 4, 1, 0, 0, 1, 0, 4, 0, 0, 0},
+        {0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 6, 0, 1, 0, 0, 0},
+        {1, 4, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 5, 0, 1, 0, 0, 0},
+        {5, 0, 0, 0, 1, 4, 1, 0, 6, 0, 0, 1, 0, 0, 1, 0, 5, 1, 6, 0},
+        {6, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0},
+        {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 5, 1, 1, 4, 0, 0, 0, 1, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
+
+    drawPath(scene, path);
+
+    startX = 0;
+    startY = 0;
+
+    QPixmap figureImage1(":/images/player1.png");
+    figureImage1 = figureImage1.scaled(TILE_SIZE, TILE_SIZE);
+    figureItem1 = scene->addPixmap(figureImage1);
+    figureItem1->setPos(TILE_SIZE * startX, TILE_SIZE * startY);
+
+    QPixmap figureImage2(":/images/player2.png");
+    figureImage2 = figureImage2.scaled(TILE_SIZE, TILE_SIZE);
+    figureItem2 = scene->addPixmap(figureImage2);
+    figureItem2->setPos(TILE_SIZE * startX, TILE_SIZE * startY);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
-        // Преобразуем позицию клика мыши в координаты сцены
         QPointF scenePos = view->mapToScene(event->pos());
 
-        // Округляем позицию сцены до ближайшей позиции на плитке
         int tileX = static_cast<int>(scenePos.x()) / TILE_SIZE;
         int tileY = static_cast<int>(scenePos.y()) / TILE_SIZE;
 
-        // Обновляем позицию фигурки
-        figureItem->setPos(tileX * TILE_SIZE, tileY * TILE_SIZE);
+        bool isOnLuckyTile = luckyTiles.contains(QPoint(tileX, tileY));
+
+        bool isOnUnluckyTile = unluckyTiles.contains(QPoint(tileX, tileY));
+
+        if (isOnLuckyTile) {
+            if (currentPlayer == 1) {
+                figureItem1->setPos((tileX + 3) * TILE_SIZE, tileY * TILE_SIZE);
+            } else {
+                figureItem2->setPos((tileX + 3) * TILE_SIZE, tileY * TILE_SIZE);
+            }
+        } else if (isOnUnluckyTile) {
+            if (currentPlayer == 1) {
+                figureItem1->setPos((tileX - 3) * TILE_SIZE, tileY * TILE_SIZE);
+            } else {
+                figureItem2->setPos((tileX - 3) * TILE_SIZE, tileY * TILE_SIZE);
+            }
+        } else if (canMove) {
+            if (currentPlayer == 1) {
+                figureItem1->setPos(tileX * TILE_SIZE, tileY * TILE_SIZE);
+            } else {
+                figureItem2->setPos(tileX * TILE_SIZE, tileY * TILE_SIZE);
+            }
+        }
+
+        currentPlayer = (currentPlayer == 1) ? 2 : 1;
+        currentPlayerLabel->setText(QString("Current Player: Player %1").arg(currentPlayer));
+
+        canMove = false;
     }
 }
 
 void MainWindow::gameRules() {
-    QMessageBox::information(this, "Game Rules", "We have two colors: blue and light blue. They take turns moving around the playing field: yellow player comes first, and then blue player. Goal: reach the end of the field. When a chip lands on a red square, it moves 3 squares forward, on a gray one - 3 squares back, on a black one - to the beginning of the playing field, on a blue one - it makes an additional move.");
+    QMessageBox::information(this, "Game Rules", "We have several figures. The figures take turns moving across the playing field. Each figure takes steps depending on the generated number. There may be obstacles and help along the way: a comet - take three steps forward, a satellite - take three steps back, a canister - one extra move. The winner is the one who reaches the finish line (blue planet) faster.");
 }
 
 void MainWindow::aboutGame() {
-    QMessageBox::information(this, "About Game", "The game was created as part of computing practice by students of the Faculty of Applied Mathematics and Informatics of BSU. Project Github: https://github.com/vitmark-06/Game4.git");
+    QMessageBox::information(this, "About Game",  "The game was created as part of educational practice by students of the Faculty of Applied Mathematics and Informatics of BSU. Github project: https://github.com/vitmark-06/Result.git");
 }
 
 void MainWindow::saveResults() {
+    QDateTime endTime = QDateTime::currentDateTime();
 
+    QString filePath = QFileDialog::getSaveFileName(this, "Save Results", QDir::homePath(), "Text Files (*.txt)");
+
+    if (!filePath.isEmpty()) {
+        QFile file(filePath);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
+
+            out << "Game ended at: " << endTime.toString("yyyy-MM-dd hh:mm:ss") << Qt::endl;
+            out << "Winner: " << winnerName << Qt::endl;
+
+            file.close();
+            QMessageBox::information(this, "Save Results", "Results saved successfully.");
+        } else {
+            QMessageBox::critical(this, "Save Results", "Failed to save results.");
+        }
+    }
+}
+
+void MainWindow::help() {
+    QMessageBox::information(this, "Game Rules", "There may be obstacles and help along the way: a comet - take three steps forward, a satellite - take three steps back, a canister - one extra move.");
 }
 
 void MainWindow::exitGame() {
@@ -175,11 +304,11 @@ void MainWindow::exitGame() {
     }
 }
 
-void MainWindow::rollDice()
-{
-    int diceRoll = std::rand() % 6 + 1; // Генерация случайного числа от 1 до 6
-    QMessageBox::information(this, "Dice Roll", QString("You rolled a %1!").arg(diceRoll));
-    // Здесь можно добавить логику перемещения игрока на игровом поле
+void MainWindow::rollDice() {
+    diceRoll = QRandomGenerator::global()->bounded(1, 7);
+    canMove = true;
+
+    diceLabel->setText(QString("Dice Roll: %1").arg(diceRoll));
 }
 
 void MainWindow::createMenu() {
@@ -201,14 +330,19 @@ void MainWindow::createMenu() {
     saveResultsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
     gameMenu->addAction(saveResultsAction);
 
+    helpAction = new QAction("Help", this);
+    helpAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_H));
+    gameMenu->addAction(helpAction);
+
     exitAction = new QAction("Exit", this);
     exitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     gameMenu->addAction(exitAction);
 
-    connect(newGameAction, &QAction::triggered, this, &MainWindow::startNewGame);
+    connect(newGameAction, &QAction::triggered, this, &MainWindow::newGame);
     connect(rulesAction, &QAction::triggered, this, &MainWindow::gameRules);
     connect(aboutAction, &QAction::triggered, this, &MainWindow::aboutGame);
     connect(saveResultsAction, &QAction::triggered, this, &MainWindow::saveResults);
+    connect(helpAction, &QAction::triggered, this, &MainWindow::help);
     connect(exitAction, &QAction::triggered, this, &MainWindow::exitGame);
 }
 
